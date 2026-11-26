@@ -564,7 +564,7 @@ def _migrate_config_layout(raw) -> bool:
     "astrbot_plugin_cucumber_applio_console",
     "AkinoSa",
     "Applio 控制台：基于 Applio 引擎的高性能 AI 翻唱与 TTS 语音合成统一调度，支持原生 WebUI 控制台与 Kaggle 混合云架构",
-    "1.0.0",
+    "1.0.1",
     "https://github.com/AkinoSa/astrbot_plugin_cucumber_applio_console",
 )
 class MusicPlugin(Star):

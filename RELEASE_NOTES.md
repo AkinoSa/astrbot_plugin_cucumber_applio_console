@@ -1,4 +1,4 @@
-# Release Notes — astrbot_plugin_cucumber_applio_console v1.0.0
+# Release Notes — astrbot_plugin_cucumber_applio_console v1.0.1
 
 首个正式公开发布版本。由 [sdfsfsk/matsuko_cover](https://github.com/sdfsfsk/matsuko_cover) v2.13.0 派生重构，并在前代 RVC 控制台架构上全面升级为 **Applio v2 原生推理引擎 + 现代化原生 WebUI + Kaggle 混合云架构**。
 
