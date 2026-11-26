@@ -1,0 +1,4 @@
+gradio_client
+aiohttp
+kaggle>=1.6.0
+

@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Applio 控制台</title>
+<link rel="stylesheet" href="assets/app.css?v=1.0.0-applio-r1" />
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand">
+      <img class="logo" src="assets/logo.png?v=1.0.0-r10" alt="logo" />
+      <div>
+        <span class="brand-text">Applio 控制台</span>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <button class="nav-item active" data-tab="overview" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4v9Zm10 7h6v-9h-6v9ZM4 20h6v-4H4v4Zm10-13h6V4h-6v3Z"/></svg>
+        <span>概览</span>
+      </button>
+      <button class="nav-item" data-tab="tasks" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v3H4V5Zm0 5.5h16v3H4v-3ZM4 16h10v3H4v-3Z"/></svg>
+        <span>任务</span>
+      </button>
+      <button class="nav-item" data-tab="rvc" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3Zm-7 8h2a5 5 0 0 0 10 0h2a7 7 0 0 1-6 6.9V21h-2v-3.1A7 7 0 0 1 5 11Z"/></svg>
+        <span>Applio 控制台</span>
+      </button>
+      <button class="nav-item" data-tab="tts" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Zm-8 9h2a6 6 0 0 0 12 0h2a8 8 0 0 1-7 7.9V21h3v2H8v-2h3v-2.1A8 8 0 0 1 4 11Z"/></svg>
+        <span>TTS 控制台</span>
+      </button>
+      <button class="nav-item" data-tab="models" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Zm-9 9 9 4.5 9-4.5-2.2-1.1L12 14.4 5.2 10.9 3 12Zm0 4.5 9 4.5 9-4.5-2.2-1.1L12 18.9 5.2 15.4 3 16.5Z"/></svg>
+        <span>模型管理</span>
+      </button>
+      <button class="nav-item" data-tab="audio" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3Zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4Z"/></svg>
+        <span>音频效果</span>
+      </button>
+      <button class="nav-item" data-tab="guide" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-3-4H8v-2h7v2zm2-4H8V9h9v2z"/></svg>
+        <span>使用说明</span>
+      </button>
+      <button class="nav-item" data-tab="settings" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm8.9 4a6.9 6.9 0 0 1-.1 1.2l2 1.5-2 3.4-2.3-.9a7 7 0 0 1-2 1.2l-.3 2.4h-4l-.3-2.4a7 7 0 0 1-2-1.2l-2.3.9-2-3.4 2-1.5A6.9 6.9 0 0 1 3.1 12c0-.4 0-.8.1-1.2l-2-1.5 2-3.4 2.3.9a7 7 0 0 1 2-1.2l.3-2.4h4l.3 2.4a7 7 0 0 1 2 1.2l2.3-.9 2 3.4-2 1.5c.1.4.1.8.1 1.2Z"/></svg>
+        <span>插件设置</span>
+      </button>
+    </nav>
+    <nav class="nav nav-bottom">
+      <button class="nav-item" data-tab="diagnostics" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h3l3-9 3 13 3-8h4v2h-2.6L14 22l-3-12-2 8H4v-2Z"/></svg>
+        <span>诊断</span>
+      </button>
+    </nav>
+  </aside>
+
+  <main class="main">
+   <div class="main-inner">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">RVC Applio 控制台</h1>
+        <p class="sub" id="pageDesc">基于 Applio 现代引擎的高性能音频转换与混合云调度</p>
+      </div>
+      <div class="top-actions">
+        <span class="status" id="stPlugin"><i></i>插件 <b>检测中</b></span>
+        <span class="status" id="stGateway"><i></i>Gateway <b>检测中</b></span>
+        <button class="btn primary" id="btnReloadData" type="button">刷新数据</button>
+      </div>
+    </header>
+
+   <div class="content" id="content">
+    <div class="banner" id="banner" hidden></div>
+
+    <!-- 概览 -->
+    <section class="panel active" id="tab-overview">
+      <div class="panel-body">
+      <div class="cards">
+        <article class="card"><h3>插件</h3><p class="kpi" id="ovPlugin">-</p><p class="hint" id="ovPluginHint">-</p></article>
+        <article class="card"><h3>Gateway</h3><p class="kpi" id="ovGateway">-</p><p class="hint" id="ovGatewayHint">-</p></article>
+        <article class="card"><h3>可用音色</h3><p class="kpi" id="ovModels">-</p><p class="hint" id="ovModelsHint">-</p></article>
+        <article class="card"><h3>默认音色</h3><p class="kpi" id="ovDefault">-</p><p class="hint" id="ovDefaultHint">-</p></article>
+        <article class="card"><h3>算力架构</h3><p class="kpi" id="ovExecMode" style="font-size:16px; margin-top:4px;">本地一体化</p><p class="hint" id="ovExecModeHint">本地翻唱 + 本地TTS</p></article>
+      </div>
+
+      <article class="card" style="margin-bottom: 14px;">
+        <div class="card-head">
+          <h3>推理算力调度架构 (Execution Engine)</h3>
+          <span class="mode-badge ready" id="badgeExecMode">本地运行中</span>
+        </div>
+        <div class="mode-cards" id="overviewModeCards">
+          <div class="mode-card active" data-mode="local_full">
+            <div class="mode-card-header">
+              <span class="mode-title">本地一体化模式 (Local Full)</span>
+              <span class="mode-badge ready" id="badgeLocalSub">当前启用</span>
+            </div>
+            <p class="mode-desc">人声分离、Applio 音色转换与混响合成全流程在本地网关运行。适合私有化离线环境，零网络依赖。</p>
+          </div>
+          <div class="mode-card" data-mode="kaggle_hybrid">
+            <div class="mode-card-header">
+              <span class="mode-title">Kaggle 混合云模式 (Cloud Hybrid)</span>
+              <span class="mode-badge pending" id="badgeHybridSub">点击切换</span>
+            </div>
+            <p class="mode-desc">长音频翻唱交由 Kaggle 云端 GPU 跑推理；本地专精毫秒级 TTS 变声与响应，减轻本地设备负载。</p>
+          </div>
+        </div>
+
+        <!-- Kaggle 状态与看门狗监控看板 -->
+        <div id="kaggleStatusCard" style="margin-top: 12px; padding: 12px 16px; background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: var(--r-sm, 8px);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 6px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="status-dot offline" id="kgDot"></span>
+              <strong style="font-size: 13.5px;" id="kgStatusText">Kaggle 云端状态：检测中...</strong>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn sm" id="btnColdStartKaggle" type="button" style="padding: 2px 10px; height: 26px; display:none; background:rgba(139,92,246,0.18); color:var(--accent,#8b5cf6); border:1px solid rgba(139,92,246,0.35); font-weight:600;">远程开机</button>
+              <button class="btn ghost sm" id="btnShutdownKaggle" type="button" style="padding: 2px 10px; height: 26px; display:none; color:var(--err,#ef4444); border-color:rgba(239,68,68,0.35);">远程关机</button>
+              <button class="btn ghost sm" id="btnRefreshKaggle" type="button" style="padding: 2px 10px; height: 26px;">刷新状态</button>
+            </div>
+          </div>
+          <div style="font-size: 12px; color: var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; line-height: 1.6;">
+            <span id="kgCountdown">看门狗倒计时：-</span>
+            <span id="kgQuotaTip" style="display:none;">10 分钟无任务自动关机</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-head"><h3>最近任务</h3><button class="link" data-goto="tasks" type="button">全部任务 ›</button></div>
+          <div id="ovTasks" class="rows"><div class="loading-state"><span class="spin-ring" aria-hidden="true"></span><span>正在初始化控制台与后端连接，请稍候...</span></div></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3>快捷入口</h3></div>
+          <div class="quick">
+            <button class="btn" data-goto="rvc" type="button">打开 Applio 控制台</button>
+            <button class="btn" data-goto="tts" type="button">TTS 试音</button>
+            <button class="btn" data-goto="models" type="button">管理音色</button>
+            <button class="btn" data-goto="settings" type="button">修改设置</button>
+            <button class="btn" data-goto="diagnostics" type="button">运行诊断</button>
+          </div>
+          <dl class="meta" id="ovMeta"></dl>
+        </article>
+      </div>
+      </div>
+    </section>
+
+    <!-- 任务 -->
+    <section class="panel" id="tab-tasks">
+      <div class="toolbar">
+        <div class="seg" id="taskBizSeg">
+          <button class="seg-item active" data-biz="rvc" type="button">RVC 任务</button>
+          <button class="seg-item" data-biz="tts" type="button">TTS 任务</button>
+        </div>
+        <div class="seg" id="taskModeSeg">
+          <button class="seg-item active" data-mode="current" type="button">当前任务</button>
+          <button class="seg-item" data-mode="history" type="button">历史任务</button>
+        </div>
+        <div class="toolbar-inline" id="taskHistoryBar" hidden>
+          <input class="input search" id="taskSearch" placeholder="搜索歌曲 / 歌手 / 模型 / 任务号" />
+          <div class="seg" id="taskSeg">
+            <button class="seg-item active" data-status="all" type="button">全部</button>
+            <button class="seg-item" data-status="succeeded" type="button">成功</button>
+            <button class="seg-item" data-status="failed" type="button">失败</button>
+            <button class="seg-item" data-status="running" type="button">进行中</button>
+          </div>
+          <button class="btn" id="btnTasksReload" type="button">刷新</button>
+          <span class="hint" id="tasksHint"></span>
+        </div>
+        <div class="pager-controls" id="taskPagerBar" hidden>
+          <select class="input pager-size" id="taskPageSize">
+            <option value="30">30 条 / 页</option>
+            <option value="50">50 条 / 页</option>
+            <option value="100">100 条 / 页</option>
+            <option value="200">200 条 / 页</option>
+          </select>
+          <button class="btn ghost sm" id="taskPrev" type="button">上一页</button>
+          <span class="pager-pages" id="taskPages"></span>
+          <button class="btn ghost sm" id="taskNext" type="button">下一页</button>
+          <span class="hint" id="taskRange"></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="paneCurrent" class="current-pane"></div>
+        <div id="paneHistory" hidden>
+          <article class="card flush">
+            <table class="table" id="taskTable">
+              <thead><tr><th>时间</th><th>歌曲 / 歌手</th><th>用户</th><th>文件 / 输入</th><th>音色</th><th>时长</th><th>状态</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <p class="empty" id="taskEmpty">暂无任务记录</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RVC 控制台 -->
+    <section class="panel" id="tab-rvc">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+        <div class="seg seg-lg" id="rvcSeg">
+          <button class="seg-item active" data-mode="convert" type="button">转换</button>
+          <button class="seg-item" data-mode="separate" type="button">人声 / 伴奏分离</button>
+          <button class="seg-item" data-mode="clip" type="button">切段</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:12.5px; font-weight:600; color:var(--muted);">算力执行引擎:</span>
+          <div class="seg" id="rvcEngineSeg">
+            <button class="seg-item active" data-engine="local" type="button">本地 (Gateway)</button>
+            <button class="seg-item" data-engine="kaggle" type="button">云端 (Kaggle GPU)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 云端状态与开关机操作栏 (切换为云端时显示) -->
+      <div id="rvcKaggleBar" style="display:none; background:var(--panel-2, rgba(248, 250, 252, 0.85)); border:1px solid var(--line); border-left:4px solid #8b5cf6; border-radius:var(--r-sm, 10px); padding:12px 16px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="status-dot offline" id="rvcKgDot"></span>
+            <span style="font-size:13.5px; font-weight:600;" id="rvcKgStatusText">检测云端状态中...</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn sm" id="btnRvcColdStartKaggle" type="button" style="padding: 2px 10px; height: 26px; display:none; background:rgba(139,92,246,0.18); color:var(--accent,#8b5cf6); border:1px solid rgba(139,92,246,0.35); font-weight:600;">远程开机</button>
+            <button class="btn ghost sm" id="btnRvcShutdownKaggle" type="button" style="padding: 2px 10px; height: 26px; display:none; color:var(--err,#ef4444); border-color:rgba(239,68,68,0.35);">远程关机</button>
+            <button class="btn ghost sm" id="btnRvcRefreshKaggle" type="button" style="padding: 2px 10px; height: 26px;">刷新状态</button>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-top:8px; line-height: 1.6; border-top:1px dashed var(--line); padding-top:6px;">
+          <span id="rvcKgCountdown">看门狗倒计时：-</span>
+          <span>云端换声使用 Kaggle GPU；云端分离强制固定搭载 BS-Roformer 1297 模型。参数严格继承控制台面板设置。</span>
+        </div>
+      </div>
+
+      <div class="panel-body">
+
+      <!-- 转换 -->
+      <div class="rvc" id="paneConvert">
+        <header class="rvc-bar">
+          <span class="rvc-brand">Applio 现代推理工作台</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="status-dot online" id="rvcGwDot"></span>
+            <span class="mode-badge ready" id="rvcGw">Gateway 在线</span>
+          </div>
+        </header>
+        <div class="rvc-cols">
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>音色与模型 (Model & F0)</h4>
+              <div class="rvc-row"><label>选择音色</label><select id="rvcModel" class="rvc-input"></select></div>
+              <div class="rvc-row"><label>Index 检索库 <span class="help-tip" data-tip="模型特征检索库 (.index)。自动配对加载，可显著增强原音色辨识度并抑制跑调。若当前音色无配套 Index，建议将下方特征率设为 0。">?</span></label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span id="rvcIndexBadge" class="tag ok">✓ 已配对 Index</span>
+                  <span id="rvcIndexNote" class="rvc-note" style="font-size:11.5px;">已自动挂载对应特征索引</span>
+                </div>
+              </div>
+              <div class="rvc-row"><label>音高算法 (F0)</label>
+                <select id="rvcF0" class="rvc-input">
+                  <option value="rmvpe">rmvpe (推荐·平衡精准)</option>
+                  <option value="fcpe">fcpe (Applio推荐·抗噪稳定)</option>
+                  <option value="harvest">harvest (慢速·极端高音)</option>
+                  <option value="pm">pm (极速·质量低)</option>
+                </select>
+              </div>
+              <div class="rvc-row"><label>检索特征率 (Index) <span class="help-tip" data-tip="模型特征检索权重 (0~1)。越高音色越像目标音色，越低越不容易跑调或杂音，推荐 0.65~0.8。">?</span></label><input id="rvcIndexRate" class="rvc-input" type="number" min="0" max="1" step="0.05" value="0.75" /></div>
+            </section>
+            <section class="rvc-block">
+              <h4>本地音频输入 (Source File)</h4>
+              <div class="rvc-row"><label>音频文件</label><input id="rvcFile" class="rvc-input" type="file" accept=".mp3,.wav,.flac,.m4a,.ogg,.aac,.opus" /></div>
+              <div class="rvc-row"><label>选择状态</label><span class="rvc-note" id="rvcUploadNote">未选择文件（支持 mp3 / wav / flac / m4a）</span></div>
+              <div class="rvc-row"><label>人声分离模式 <span class="help-tip" data-tip="若上传的是清唱/纯人声干声，务必选「不分离（纯人声直出）」以避免分离损伤与重影电音；若上传含伴奏歌曲，可选择分离仅出人声或混回伴奏。">?</span></label>
+                <select id="rvcSepMode" class="rvc-input">
+                  <option value="skip" selected>不分离 · 纯人声 / 清唱直出（对齐本地 Applio）</option>
+                  <option value="vocals">分离背景音 · 仅输出变声人声</option>
+                  <option value="mix">分离背景音 · 变声并混回伴奏（完整翻唱）</option>
+                </select>
+              </div>
+            </section>
+            <section class="rvc-block">
+              <h4>变调与截取 (Tuning & Timing)</h4>
+              <div class="rvc-row"><label>变调（半音） <span class="help-tip" data-tip="升降半音数 (-24 ~ +24)。男转女一般 +12，女转男一般 -12，同性别通常填 0。">?</span></label><input id="rvcPitch" class="rvc-input" type="number" min="-24" max="24" step="1" value="0" /></div>
+              <div class="rvc-row"><label>截取模式 <span class="help-tip" data-tip="全首：转换完整音频；副歌：智能截取高潮片段；自定义：指定时间区间。">?</span></label>
+                <select id="rvcRenderMode" class="rvc-input">
+                  <option value="full" selected>全首 (完整音频·默认)</option>
+                  <option value="chorus">副歌截取 (智能高潮片段)</option>
+                  <option value="custom">自定义切片 (指定时间区间)</option>
+                </select>
+              </div>
+              <div id="rvcChorusOptions" style="display:none;">
+                <div class="rvc-row"><label>副歌时长（秒）</label><input id="rvcSeconds" class="rvc-input" type="number" min="10" max="200" step="1" value="25" /></div>
+                <div class="rvc-row"><label>缓冲时长（秒） <span class="help-tip" data-tip="先多切出这段缓冲一起分离推理，再在「目标 ~ 目标+缓冲」内挑最优浮动片段（默认 10 秒，设为 0 则固定时长）。">?</span></label><input id="rvcChorusBuffer" class="rvc-input" type="number" min="0" max="30" step="1" value="10" /></div>
+                <div class="rvc-row"><label>首尾淡入淡出</label><input id="rvcFade" class="rvc-input" type="number" min="0" max="5" step="0.1" value="0.5" /></div>
+              </div>
+              <div id="rvcCustomOptions" style="display:none;">
+                <div class="rvc-row"><label>起点时间</label><input id="rvcStart" class="rvc-input" placeholder="如 01:12.5 或 72.5" /></div>
+                <div class="rvc-row"><label>终点时间</label><input id="rvcEnd" class="rvc-input" placeholder="如 01:40 或 100" /></div>
+                <div class="rvc-row"><label>固定时长（秒）</label><input id="rvcDuration" class="rvc-input" placeholder="如 25" /></div>
+                <div class="rvc-row"><label>首尾淡入淡出</label><input id="rvcCustomFade" class="rvc-input" type="number" min="0" max="5" step="0.1" value="0.5" /></div>
+              </div>
+              <div class="rvc-row" style="margin-top:4px;"><label>speaker_id <span class="help-tip" data-tip="多角色模型说话人 ID，单音色模型填 0。">?</span></label><input id="rvcSpeaker" class="rvc-input" type="number" min="0" value="0" /></div>
+            </section>
+          </div>
+          <div class="rvc-col">
+            <section class="rvc-block feature-highlight">
+              <h4>Applio 专属音质增强 (Enhancements)</h4>
+              <div class="rvc-row"><label>自动音准吸附 (Autotune) <span class="help-tip" data-tip="将跑调的音准吸附到十二平均律，改善走音破音。">?</span></label><input id="rvcAutotune" type="checkbox" /></div>
+              <div class="rvc-row"><label>共振峰偏移 (男翻女防闷) <span class="help-tip" data-tip="偏移声道共振峰，避免跨性别翻唱时声音闷罐或刺耳。">?</span></label><input id="rvcFormant" type="checkbox" /></div>
+              <div class="rvc-row"><label>智能人声杂音清理 <span class="help-tip" data-tip="清理分离残留的杂音与底噪。默认为关闭，保持纯人声原汁原味。">?</span></label>
+                <select id="rvcClean" class="rvc-input">
+                  <option value="off" selected>关闭清理 (默认·原汁原味)</option>
+                  <option value="light">轻度去噪 (FFmpeg 轻量过滤)</option>
+                  <option value="speech">语音增强 (DeepFilterNet3·歌声慎用)</option>
+                </select>
+              </div>
+            </section>
+            <section class="rvc-block">
+              <h4>转换参数 (Inference)</h4>
+              <div class="rvc-row"><label>RMS 混合率 <span class="help-tip" data-tip="输入音量包络与模型输出音量的混合比 (0~1)。Applio 默认 1.0（保持自然动态）；过小可能在换气处放大底噪。">?</span></label><input id="rvcRms" class="rvc-input" type="number" min="0" max="1" step="0.05" value="1.0" /></div>
+              <div class="rvc-row"><label>保护度 (protect) <span class="help-tip" data-tip="清辅音与呼吸声保护 (0~0.5)。Applio 原生默认 0.5（最大保护，有效抑制清唱电音撕裂）。">?</span></label><input id="rvcProtect" class="rvc-input" type="number" min="0" max="0.5" step="0.01" value="0.5" /></div>
+              <div class="rvc-row"><label>输出格式</label>
+                <select id="rvcFormat" class="rvc-input"><option value="wav">wav (无损原声)</option><option value="mp3">mp3 (高兼容)</option><option value="flac">flac (压缩无损)</option></select>
+              </div>
+              <div class="rvc-row"><label>人声音量（dB）</label><input id="rvcVocalDb" class="rvc-input" type="number" min="-12" max="12" step="0.5" value="0" /></div>
+            </section>
+            <section class="rvc-block">
+              <h4>人声混响试听 (Reverb Preview)</h4>
+              <div class="rvc-row"><label>启用 Reverb <span class="help-tip" data-tip="开启后为人声叠加自然录音棚空间混响，消除干拔生硬感。">?</span></label><input id="rvcReverbOn" type="checkbox" /></div>
+              <div class="rvc-row"><label>Wet / Dry <span class="help-tip" data-tip="Wet(湿音): 混响效果音量 (0~0.5)，推荐 0.08 通透温润；Dry(干音): 原始人声音量 (0.5~1.0)，建议 1.0 保留清晰人声。">?</span></label><div class="dual-inputs"><input id="rvcRevWet" class="rvc-input" type="number" min="0" max="0.5" step="0.01" value="0.08" placeholder="Wet" /><input id="rvcRevDry" class="rvc-input" type="number" min="0.5" max="1" step="0.05" value="1.0" placeholder="Dry" /></div></div>
+              <div class="rvc-row"><label>房间大小 / 尾音 <span class="help-tip" data-tip="Room Size: 模拟房间或录音室大小 (0~1)，推荐 0.35；Decay: 混响衰减持续时长 (秒)，推荐 0.8s 纯净不拖沓。">?</span></label><div class="dual-inputs"><input id="rvcRevRoom" class="rvc-input" type="number" min="0" max="1" step="0.05" value="0.35" placeholder="Room" /><input id="rvcRevDecay" class="rvc-input" type="number" min="0.2" max="4" step="0.1" value="0.8" placeholder="Decay" /></div></div>
+              <div class="rvc-row"><label>衰减 / 延迟 / 宽度 <span class="help-tip" data-tip="Damping: 高频阻尼 (0~1)，推荐 0.6 吸收刺耳高音；Pre-delay: 混响初次反射延迟 (ms)，推荐 12ms；Width: 立体声声场扩展度 (0~1)。">?</span></label><div class="triple-inputs"><input id="rvcRevDamp" class="rvc-input" type="number" min="0" max="1" step="0.05" value="0.60" placeholder="Damp" /><input id="rvcRevPre" class="rvc-input" type="number" min="0" max="100" step="1" value="12" placeholder="Pre" /><input id="rvcRevWidth" class="rvc-input" type="number" min="0" max="1" step="0.05" value="0.60" placeholder="Width" /></div></div>
+            </section>
+          </div>
+        </div>
+        <footer class="rvc-actions">
+          <button class="btn primary" id="rvcRun" type="button">开始转换</button>
+          <button class="btn ghost" id="rvcReset" type="button">重置参数</button>
+          <span class="rvc-status" id="rvcStatus">就绪</span>
+        </footer>
+        <section class="rvc-result" id="rvcResult" hidden>
+          <h4>转换成品输出</h4>
+          <div id="rvcOutputs" class="outputs"></div>
+        </section>
+      </div>
+
+      <!-- 分离 -->
+      <div class="rvc" id="paneSeparate" hidden>
+        <header class="rvc-bar">
+          <span class="rvc-brand">人声 / 伴奏分离</span>
+          <span class="rvc-meta">底层 PyMSS 模型 · CPU/GPU 分离，不跑 RVC 变声</span>
+        </header>
+        <div class="rvc-cols">
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>输入音源</h4>
+              <div class="rvc-row"><label>音频文件</label><input id="sepFile" class="rvc-input" type="file" accept=".mp3,.wav,.flac,.m4a,.ogg,.aac,.opus" /></div>
+              <div class="rvc-row"><label>选择状态</label><span class="rvc-note" id="sepUploadNote">未选择文件</span></div>
+            </section>
+            <section class="rvc-block">
+              <h4>分离参数</h4>
+              <div class="rvc-row"><label>处理方式</label>
+                <select id="sepMode" class="rvc-input">
+                  <option value="both">分离人声与伴奏 (Vocals + Instrumental)</option>
+                  <option value="vocals">仅保留人声 (Vocals Only)</option>
+                  <option value="instrumental">仅保留伴奏 (Instrumental Only)</option>
+                </select>
+              </div>
+              <div class="rvc-row"><label>分离模型</label><select id="sepModel" class="rvc-input"></select></div>
+              <div class="rvc-row"><label>导出格式</label>
+                <select id="sepFormat" class="rvc-input">
+                  <option value="wav">wav (无损原声)</option>
+                  <option value="flac">flac (压缩无损)</option>
+                  <option value="mp3">mp3 (高兼容)</option>
+                  <option value="m4a">m4a (AAC)</option>
+                </select>
+              </div>
+            </section>
+          </div>
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>分离说明</h4>
+              <p class="rvc-note" style="line-height:1.7;">
+                • 采用高精度神经网络分离音轨，为人声与伴奏提供纯净分流。<br>
+                • 提取出的人声可直接用于模型训练或导入 Applio 变声；伴奏可用于混音合成。<br>
+                • 任务将自动加入排队系统，完成后可直接在线试听或下载。
+              </p>
+            </section>
+            <section class="rvc-block" id="sepResultBlock">
+              <h4>分离成品输出</h4>
+              <p class="rvc-note" id="sepInfo">分离完成后在此显示结果，可直接播放或下载。</p>
+              <div id="sepOutputs" class="outputs"></div>
+            </section>
+          </div>
+        </div>
+        <footer class="rvc-actions">
+          <button class="btn primary" id="sepRun" type="button">开始分离</button>
+          <span class="rvc-status" id="sepStatus">就绪</span>
+        </footer>
+      </div>
+
+      <!-- 切段 -->
+      <div class="rvc" id="paneClip" hidden>
+        <header class="rvc-bar">
+          <span class="rvc-brand">音频智能切段</span>
+          <span class="rvc-meta">用与翻唱相同的启发式算法挑出精彩片段，不做分离与变声</span>
+        </header>
+        <div class="rvc-cols">
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>输入音源</h4>
+              <div class="rvc-row"><label>音频文件</label><input id="clipFile" class="rvc-input" type="file" accept=".mp3,.wav,.flac,.m4a,.ogg,.aac,.opus" /></div>
+              <div class="rvc-row"><label>选择状态</label><span class="rvc-note" id="clipUploadNote">未选择文件</span></div>
+            </section>
+            <section class="rvc-block">
+              <h4>切段参数</h4>
+              <div class="rvc-row"><label>目标时长 (秒)</label><input id="clipSeconds" class="rvc-input" type="number" min="10" max="200" step="1" value="25" /></div>
+              <div class="rvc-row"><label>导出格式</label>
+                <select id="clipFormat" class="rvc-input">
+                  <option value="wav">wav (无损原声)</option>
+                  <option value="flac">flac (压缩无损)</option>
+                  <option value="mp3">mp3 (高兼容)</option>
+                  <option value="m4a">m4a (AAC)</option>
+                </select>
+              </div>
+            </section>
+          </div>
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>切段说明</h4>
+              <p class="rvc-note" style="line-height:1.7;">
+                • 根据能量分布与节奏启发式算法，自动截取歌曲最具代表性的高潮/副歌片段。<br>
+                • 适合快速试听、制作铃声或作为变声素材。<br>
+                • 切段任务执行极快，完成后可直接在线试听或下载。
+              </p>
+            </section>
+            <section class="rvc-block" id="clipResultBlock">
+              <h4>切段成品输出</h4>
+              <p class="rvc-note" id="clipInfo">切段完成后在此显示结果，可直接播放或下载。</p>
+              <div id="clipOutputs" class="outputs"></div>
+            </section>
+          </div>
+        </div>
+        <footer class="rvc-actions">
+          <button class="btn primary" id="clipRun" type="button">开始切段</button>
+          <span class="rvc-status" id="clipStatus">就绪</span>
+        </footer>
+      </div>
+      </div>
+    </section>
+
+    <!-- TTS 控制台 -->
+    <section class="panel" id="tab-tts">
+      <div class="panel-body">
+      <div class="rvc">
+        <header class="rvc-bar">
+          <span class="rvc-brand">TTS 试音台</span>
+        </header>
+        <div class="rvc-cols">
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>服务商与音色</h4>
+              <div class="rvc-row"><label>TTS 服务商</label><select id="ttsProvider" class="rvc-input"></select></div>
+              <div class="rvc-row"><label>音色模型</label><select id="ttsModel" class="rvc-input"></select></div>
+              <div class="rvc-row"><label>音调（半音）</label><input id="ttsPitch" class="rvc-input" type="number" min="-24" max="24" step="1" value="0" /></div>
+              <div class="rvc-row"><label>输出格式</label>
+                <select id="ttsFormat" class="rvc-input">
+                  <option value="wav">wav</option><option value="mp3">mp3</option>
+                </select>
+              </div>
+              <div class="rvc-row"><label>Reverb</label>
+                <select id="ttsReverb" class="rvc-input">
+                  <option value="default">按插件配置</option>
+                  <option value="true">本次开启</option>
+                  <option value="false">本次关闭</option>
+                </select>
+              </div>
+            </section>
+            <p class="hint">这里只做试听，不修改插件配置；群聊触发规则在「插件设置 → TTS 语音回复」里调。</p>
+          </div>
+          <div class="rvc-col">
+            <section class="rvc-block">
+              <h4>文本</h4>
+              <textarea id="ttsText" class="input tts-text" rows="5" maxlength="500"
+                placeholder="你好，今天也请多多关照。"></textarea>
+            </section>
+            <footer class="rvc-actions">
+              <button class="btn primary" id="ttsRun" type="button">生成语音</button>
+              <span class="rvc-status" id="ttsStatus">就绪</span>
+            </footer>
+            <section class="rvc-result" id="ttsResult" hidden>
+              <h4>试听结果</h4>
+              <div id="ttsOutputs" class="outputs"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- 模型管理 -->
+    <section class="panel" id="tab-models">
+      <div class="toolbar">
+        <button class="btn primary" id="btnSaveModels" type="button">保存设置</button>
+        <button class="btn" id="btnRefreshModels" type="button">刷新模型</button>
+        <span class="hint" id="modelsHint"></span>
+      </div>
+      <div class="panel-body">
+        <p class="hint">每行:模型 / 别名 / 性别 / <b>翻唱</b>(○=翻唱用它) / <b>TTS</b>(○=TTS 用它)——两列各自只能启用一个,点另一个自动切换；改完点顶部「保存设置」。</p>
+        <div id="modelRows" class="model-rows"></div>
+        <p class="empty" id="modelEmpty">暂无模型</p>
+        <p class="hint" id="modelsDir"></p>
+      </div>
+    </section>
+
+    <!-- 音频效果 -->
+    <section class="panel" id="tab-audio">
+      <div class="toolbar">
+        <button class="btn primary" id="btnSaveAudio" type="button">保存音频效果设置</button>
+        <button class="btn ghost" id="btnReloadAudio" type="button">重新读取</button>
+        <span class="hint" id="audioHint"></span>
+      </div>
+      <div class="panel-body">
+        <div id="audioCards"></div>
+      </div>
+    </section>
+
+    <!-- 插件设置 -->
+    <section class="panel" id="tab-settings">
+      <div class="toolbar">
+        <div class="seg" id="cfgGroupSeg"></div>
+        <button class="btn primary" id="btnSaveCfg" type="button">保存设置</button>
+        <button class="btn ghost" id="btnReloadCfg" type="button">重新读取</button>
+        <span class="hint" id="cfgHint"></span>
+      </div>
+      <div class="panel-body">
+        <div id="cfgGroups"></div>
+      </div>
+    </section>
+
+    <!-- 使用说明 -->
+    <section class="panel" id="tab-guide">
+      <div class="toolbar">
+        <div class="seg" id="guideSeg">
+          <button class="seg-item active" data-guide="features" type="button">功能说明</button>
+          <button class="seg-item" data-guide="commands" type="button">指令说明</button>
+          <button class="seg-item" data-guide="kaggle" type="button">Kaggle 与域名穿透说明</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- 标签页 1: 功能说明 -->
+        <div id="guideSec-features" class="guide-section" style="display:flex; flex-direction:column; gap:16px;">
+          <article class="card">
+            <div class="card-head"><h3>Applio 现代架构与核心功能全景</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <p>本插件基于现代 <b>Applio v2</b> 引擎架构构建，专为高性能 RVC 变声与群聊多媒体娱乐量身打造：</p>
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 10px;">
+                <div style="background:var(--bg,#f8fafc); padding:12px 14px; border-radius:8px; border:1px solid var(--line);">
+                  <strong style="color:var(--accent,#8b5cf6);">现代 RVC 变声算法 (RMVPE)</strong>
+                  <p style="font-size:12px; color:var(--muted); margin:4px 0 0; line-height:1.6;">采用业内顶级 RMVPE 音高检测与自适应特征检索，极少哑音、电音或破音，高度还原目标角色声线细节与唱腔情感。</p>
+                </div>
+                <div style="background:var(--bg,#f8fafc); padding:12px 14px; border-radius:8px; border:1px solid var(--line);">
+                  <strong style="color:var(--accent,#8b5cf6);">高保真人声伴奏分离 (云端固定 1297 旗舰模型)</strong>
+                  <p style="font-size:12px; color:var(--muted); margin:4px 0 0; line-height:1.6;">支持 BS-Roformer 与 UVR5 现代深度网络。云端 Kaggle 算力环境固定且强制搭载业内顶级 <b>BS-Roformer 1297 (SDR 12.9755)</b> 旗舰人声分离网络，人声提取极其纯净，伴奏保留完整立体声声场与动态打击感。</p>
+                </div>
+                <div style="background:var(--bg,#f8fafc); padding:12px 14px; border-radius:8px; border:1px solid var(--line);">
+                  <strong style="color:var(--accent,#8b5cf6);">TTS 角色语音回复</strong>
+                  <p style="font-size:12px; color:var(--muted); margin:4px 0 0; line-height:1.6;">群聊触发文字回复时，先经高拟真 EdgeTTS 生成语音，再由 Applio 极速转换为专属角色声线发送。</p>
+                </div>
+                <div style="background:var(--bg,#f8fafc); padding:12px 14px; border-radius:8px; border:1px solid var(--line);">
+                  <strong style="color:var(--accent,#8b5cf6);">混合云算力无感调度</strong>
+                  <p style="font-size:12px; color:var(--muted); margin:4px 0 0; line-height:1.6;">兼备「本地一体化」与「Kaggle 混合云」两种算力架构，长音频变声上云白嫖双卡 T4 GPU，离线时本地自动平滑兜底。</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h3>算力调度架构对比 (本地 vs 混合云)</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <table style="width:100%; border-collapse:collapse; margin-top:6px; font-size:12.5px;">
+                <thead>
+                  <tr style="border-bottom:2px solid var(--line); text-align:left;">
+                    <th style="padding:8px 10px;">特性维度</th>
+                    <th style="padding:8px 10px; color:var(--accent,#8b5cf6);">本地一体化模式 (Local Full)</th>
+                    <th style="padding:8px 10px; color:var(--accent,#8b5cf6);">Kaggle 混合云模式 (Cloud Hybrid)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--line);">
+                    <td style="padding:8px 10px; font-weight:600;">运行环境</td>
+                    <td style="padding:8px 10px;">全流程 100% 运行在本地主机 / 设备</td>
+                    <td style="padding:8px 10px;">翻唱交由云端双卡 GPU；TTS 在本地极速响应</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--line);">
+                    <td style="padding:8px 10px; font-weight:600;">算力与硬件要求</td>
+                    <td style="padding:8px 10px;">本地需要独立 GPU 或较强 CPU 支撑</td>
+                    <td style="padding:8px 10px;"><b>零本地硬件负担</b>，普通无独显主机也可流畅跑</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--line);">
+                    <td style="padding:8px 10px; font-weight:600;">外网与费用</td>
+                    <td style="padding:8px 10px;">纯内网离线运行，零外网依赖</td>
+                    <td style="padding:8px 10px;"><b>完全免费</b>（Kaggle 每周送 30 小时 Tesla T4 算力）</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 10px; font-weight:600;">离线容灾保护</td>
+                    <td style="padding:8px 10px;">依赖本地单点</td>
+                    <td style="padding:8px 10px;"><b>全自动平滑兜底</b>（云端休眠或断网时自动切回本地）</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h3>配套 Docker 推理网关部署 (cucumber-applio-gateway)</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <p>本插件为纯调度与交互端，底层模型推理与人声分离由独立 Docker 容器 <a href="https://github.com/AkinoSa/cucumber-applio-gateway" target="_blank" style="color:var(--blue,#2563eb); font-weight:600;">cucumber-applio-gateway</a> 承担（支持普通家用无显卡 CPU 主机，作为 TTS 实时变声与云端离线兜底核心）：</p>
+              <ol style="margin:6px 0 8px 18px; color:var(--muted); line-height:1.8;">
+                <li>在宿主机拉取网关仓库或直接通过预构建镜像 <code>ghcr.io/akinosa/cucumber-applio-gateway:1.0.0</code> 部署（<code>docker compose pull && docker compose up -d</code>）。</li>
+                <li>按目录准备模型资产：<code>weights/</code>（<code>.pth</code> 音色）、<code>indices/</code>（同名 <code>.index</code>，可选）、<code>pymss_weights/</code>（<code>3_HP-Vocal-UVR.pth</code>）、<code>hubert_base/</code>、<code>rmvpe/</code>。</li>
+                <li>在插件设置中填写 <b>网关服务地址</b>（如 <code>http://127.0.0.1:3333/</code>，末尾需带 <code>/</code>）以及与网关 <code>RVC_WORK_DIR</code> 完全一致的 <b>网关工作目录</b>。</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h3>音频效果与 Reverb 空间混响调教</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <p>• <b>为什么需要混响</b>：AI 变声出的人声处于完全无声场反射的「纯干音」状态，听感容易生硬突兀。Reverb 混响为人声叠加物理空间立体残响，润色毛刺感，使人声自然融入伴奏。<br>
+              • <b>一键预设推荐</b>：在左侧「音频效果」选项卡中提供 4 个一键预设：<br>
+              &nbsp;&nbsp;• <b>录音棚 (通透温润·推荐)</b>：流行人声首选，湿音 0.08，人声咬字极清澈且通透贴耳。<br>
+              &nbsp;&nbsp;• <b>音乐大厅 (空间宽广)</b>：适合慢歌与高音抒情大歌，声场宽宏空灵。<br>
+              &nbsp;&nbsp;• <b>现场演出 (Live 氛围)</b>：模拟演唱会 Live 现场残响。<br>
+              &nbsp;&nbsp;• <b>关闭混响 (原生干音)</b>：输出无混响干音原声。</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- 标签页 2: 指令说明 -->
+        <div id="guideSec-commands" class="guide-section" style="display:none; flex-direction:column; gap:16px;">
+          <article class="card">
+            <div class="card-head"><h3 style="font-size:16px; font-weight:700; color:var(--text); margin:0 0 6px;">QQ 群聊快捷指令与点歌语法速查</h3></div>
+            <p class="f-hint" style="font-size:13px; color:var(--muted); margin:0 0 16px;">在任何已授权的群聊或私聊中发送以下指令，即可直接调用全部核心功能（前缀支持 <code>/</code> 或 <code>#</code>）：</p>
+            
+            <div class="cmd-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap:16px; margin-top:14px;">
+              <!-- 卡片 1: 核心翻唱指令 -->
+              <div class="cmd-card" style="background:var(--bg,#f8fafc); border:1px solid var(--line); border-left:4px solid #8b5cf6; border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;">
+                <div class="cmd-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <span class="cmd-syntax" style="font-family:var(--mono, monospace); font-size:13.5px; font-weight:600; color:#8b5cf6; background:rgba(139,92,246,0.1); padding:4px 10px; border-radius:6px; border:1px solid rgba(139,92,246,0.25);">/rvc 歌名 [修饰词...]</span>
+                  <span class="cmd-badge" style="font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; background:rgba(139,92,246,0.15); color:#8b5cf6;">核心翻唱</span>
+                </div>
+                <div class="cmd-body" style="font-size:12.5px; color:var(--text); line-height:1.7;">
+                  核心变声翻唱指令，支持参数自由组合：
+                  <ul style="margin:6px 0 0; padding-left:18px;">
+                    <li style="margin-bottom:4px;"><b>默认模式</b>：不带修饰词时，输出<b>【副歌 + 纯人声清唱】</b>（约 25 秒，数十秒内极速出歌）；</li>
+                    <li style="margin-bottom:4px;"><b>加伴奏</b>：添加「<code>伴奏</code> / <code>加伴奏</code> / <code>带伴奏</code>」，输出<b>【人声 + 伴奏结合版】</b>；</li>
+                    <li style="margin-bottom:4px;"><b>唱全首</b>：添加「<code>全首</code> / <code>整首</code> / <code>完整版</code>」，输出<b>【全曲完整版】</b>；</li>
+                    <li style="margin-bottom:4px;"><b>升降调</b>：输入 <code>-12 ~ +12</code> 整数，支持跨性别八度智能推断。</li>
+                  </ul>
+                </div>
+                <div class="cmd-eg" style="margin-top:6px; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:6px; font-size:12px; color:var(--muted); border:1px dashed var(--line); line-height:1.6;">示例：<code>/rvc 我不难过 伴奏 +2</code> 或 <code>/rvc 晴天 全首</code></div>
+              </div>
+
+              <!-- 卡片 2: 自然语言点歌 -->
+              <div class="cmd-card blue" style="background:var(--bg,#f8fafc); border:1px solid var(--line); border-left:4px solid #2563eb; border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;">
+                <div class="cmd-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <span class="cmd-syntax" style="font-family:var(--mono, monospace); font-size:13.5px; font-weight:600; color:#2563eb; background:rgba(37,99,235,0.1); padding:4px 10px; border-radius:6px; border:1px solid rgba(37,99,235,0.25);">口语点歌（免指令前缀）</span>
+                  <span class="cmd-badge" style="font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; background:rgba(37,99,235,0.15); color:#2563eb;">LLM 意图识别</span>
+                </div>
+                <div class="cmd-body" style="font-size:12.5px; color:var(--text); line-height:1.7;">
+                  直接使用口语化句子对机器人对话，LLM 意图引擎自动提取歌曲与修饰参数：
+                  <ul style="margin:6px 0 0; padding-left:18px;">
+                    <li style="margin-bottom:4px;"><code>我想听你唱孙燕姿的我不难过</code> → 触发<b>【副歌 + 纯人声清唱】</b>（默认）；</li>
+                    <li style="margin-bottom:4px;"><code>我想听你带伴奏唱晴天</code> → 识别到「带伴奏」，触发<b>【副歌 + 人声伴奏结合】</b>；</li>
+                    <li style="margin-bottom:4px;"><code>唱完整首我不难过</code> → 识别到「整首」，触发<b>【全首完整版 + 纯人声】</b>；</li>
+                    <li style="margin-bottom:4px;"><code>我想听全首带伴奏的我不难过</code> → 双修饰生效，触发<b>【全首 + 人声伴奏结合】</b>。</li>
+                  </ul>
+                </div>
+                <div class="cmd-eg" style="margin-top:6px; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:6px; font-size:12px; color:var(--muted); border:1px dashed var(--line); line-height:1.6;">提示：只要句子包含歌名，意图识别器即可无感解析并自动调用 RVC 翻唱。</div>
+              </div>
+
+              <!-- 卡片 3: 本地语音变声 -->
+              <div class="cmd-card orange" style="background:var(--bg,#f8fafc); border:1px solid var(--line); border-left:4px solid #f2793c; border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;">
+                <div class="cmd-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <span class="cmd-syntax" style="font-family:var(--mono, monospace); font-size:13.5px; font-weight:600; color:#f2793c; background:rgba(242,121,60,0.1); padding:4px 10px; border-radius:6px; border:1px solid rgba(242,121,60,0.25);">/本地翻唱 [音色] [变调]</span>
+                  <span class="cmd-badge" style="font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; background:rgba(242,121,60,0.15); color:#f2793c;">语音变声</span>
+                </div>
+                <div class="cmd-body" style="font-size:12.5px; color:var(--text); line-height:1.7;">
+                  音频文件与语音变声指令：
+                  <ul style="margin:6px 0 0; padding-left:18px;">
+                    <li style="margin-bottom:4px;"><b>直接发送</b>：在群内发送一条音频文件或语音消息；</li>
+                    <li style="margin-bottom:4px;"><b>引用变声</b>：在 5 分钟内引用该语音发送 <code>/本地翻唱</code>；</li>
+                    <li style="margin-bottom:4px;">系统将该语音提取并通过目标 RVC 音色变声后回复至群聊。</li>
+                  </ul>
+                </div>
+                <div class="cmd-eg" style="margin-top:6px; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:6px; font-size:12px; color:var(--muted); border:1px dashed var(--line); line-height:1.6;">示例：引用一条群友语音，发送 <code>/本地翻唱 +2</code></div>
+              </div>
+
+              <!-- 卡片 4: 任务与队列管理 -->
+              <div class="cmd-card ok" style="background:var(--bg,#f8fafc); border:1px solid var(--line); border-left:4px solid #10b981; border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;">
+                <div class="cmd-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <span class="cmd-syntax" style="font-family:var(--mono, monospace); font-size:13.5px; font-weight:600; color:#10b981; background:rgba(16,185,129,0.1); padding:4px 10px; border-radius:6px; border:1px solid rgba(16,185,129,0.25);">/cover_status 与 /取消翻唱任务</span>
+                  <span class="cmd-badge" style="font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; background:rgba(16,185,129,0.15); color:#10b981;">队列与状态</span>
+                </div>
+                <div class="cmd-body" style="font-size:12.5px; color:var(--text); line-height:1.7;">
+                  翻唱任务追踪与个人历史统计：
+                  <ul style="margin:6px 0 0; padding-left:18px;">
+                    <li style="margin-bottom:4px;"><code>/cover_status</code>：查看当前正在执行的任务进度与自己在队列中的排位；</li>
+                    <li style="margin-bottom:4px;"><code>/取消翻唱任务</code>：撤销由自己提交的排队中或正在执行中的任务；</li>
+                    <li style="margin-bottom:4px;"><code>/我的翻唱统计</code>：查看个人历史点歌总数与偏好音色统计。</li>
+                  </ul>
+                </div>
+                <div class="cmd-eg" style="margin-top:6px; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:6px; font-size:12px; color:var(--muted); border:1px dashed var(--line); line-height:1.6;">示例：发送 <code>/cover_status</code> 实时查看 GPU 算力执行阶段与耗时。</div>
+              </div>
+
+              <!-- 卡片 5: 音色与云端管理 -->
+              <div class="cmd-card warn" style="background:var(--bg,#f8fafc); border:1px solid var(--line); border-left:4px solid #f59e0b; border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;">
+                <div class="cmd-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <span class="cmd-syntax" style="font-family:var(--mono, monospace); font-size:13.5px; font-weight:600; color:#f59e0b; background:rgba(245,158,11,0.1); padding:4px 10px; border-radius:6px; border:1px solid rgba(245,158,11,0.25);">/刷新rvc模型 与 /唤醒云端</span>
+                  <span class="cmd-badge" style="font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; background:rgba(245,158,11,0.15); color:#f59e0b;">管理维护</span>
+                </div>
+                <div class="cmd-body" style="font-size:12.5px; color:var(--text); line-height:1.7;">
+                  音色热重载与云端算力调度：
+                  <ul style="margin:6px 0 0; padding-left:18px;">
+                    <li style="margin-bottom:4px;"><code>/刷新rvc模型</code>：新增或变更权重文件后发送，实时重载生效；</li>
+                    <li style="margin-bottom:4px;"><code>/设置默认音色 [音色名]</code>：快捷修改机器人翻唱所使用的默认声线；</li>
+                    <li style="margin-bottom:4px;"><code>/唤醒云端</code>：通过 Kaggle 官方 API 一键远程唤醒 GPU 实例；</li>
+                    <li style="margin-bottom:4px;"><code>/云端状态</code>：查看云端当前在线状态、设备型号与自动关机倒计时。</li>
+                  </ul>
+                </div>
+                <div class="cmd-eg" style="margin-top:6px; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:6px; font-size:12px; color:var(--muted); border:1px dashed var(--line); line-height:1.6;">示例：发送 <code>/云端状态</code> 或 <code>/唤醒云端</code></div>
+              </div>
+
+              <!-- 卡片 6: 帮助与指引 -->
+              <div class="cmd-card" style="background:var(--bg,#f8fafc); border:1px solid var(--line); border-left:4px solid #6366f1; border-radius:10px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;">
+                <div class="cmd-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                  <span class="cmd-syntax" style="font-family:var(--mono, monospace); font-size:13.5px; font-weight:600; color:#6366f1; background:rgba(99,102,241,0.1); padding:4px 10px; border-radius:6px; border:1px solid rgba(99,102,241,0.25);">/翻唱帮助 或 /rvc帮助</span>
+                  <span class="cmd-badge" style="font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; background:rgba(99,102,241,0.15); color:#6366f1;">帮助速查</span>
+                </div>
+                <div class="cmd-body" style="font-size:12.5px; color:var(--text); line-height:1.7;">
+                  指令语法与快速上手指南：
+                  <ul style="margin:6px 0 0; padding-left:18px;">
+                    <li style="margin-bottom:4px;">在聊天群或私聊中呼出 RVC 翻唱最新语法、默认规则与示例卡片；</li>
+                    <li style="margin-bottom:4px;">支持输入 <code>/rvc 帮助</code> 或 <code>#翻唱帮助</code> 触发；</li>
+                    <li style="margin-bottom:4px;">新手群友发送后即可快速掌握点歌技巧。</li>
+                  </ul>
+                </div>
+                <div class="cmd-eg" style="margin-top:6px; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:6px; font-size:12px; color:var(--muted); border:1px dashed var(--line); line-height:1.6;">示例：发送 <code>/翻唱帮助</code> 查看图文语法速查表。</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h3>统一任务注册表与并发排队规则</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <p>• <b>防抢占与 FIFO 队列</b>：为保护本地网关与云端 GPU 不被并发压垮，同一时间严格只运行 1 首翻唱任务。新任务会自动进入队列排队，并实时播报排队序号（如“排队第 1 位”）。<br>
+              • <b>防重复提交</b>：同一用户、同会话下提交相同的歌曲请求，在时间窗口内系统会拦截并提示“正在排队处理中，无需重复点歌”。<br>
+              • <b>任务接力不超时</b>：排队任务会在前序任务完成的瞬间秒级接力，云端看门狗在排队期间持续保持活跃，全部任务清空后才开始计算 10 分钟关机倒计时。</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- 标签页 3: Kaggle 与域名穿透说明 -->
+        <div id="guideSec-kaggle" class="guide-section" style="display:none; flex-direction:column; gap:16px;">
+          <article class="card">
+            <div class="card-head"><h3>Kaggle 免费算力与 API 远程一键唤醒</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <div style="background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.25); border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 14px; margin-bottom:12px; font-size:12.5px; line-height:1.7;">
+                <strong style="color:var(--accent,#8b5cf6);">安全保护与云端算力启用前提：</strong>
+                <p style="margin:4px 0 0; color:var(--text);">为了防止实例无意闲置扣费并确保云端连接有效，<b>系统规定：概览页、Applio 控制台及设置页中切换为云端算力 / 混合云模式时，需至少配置 Kaggle 隧道端点地址（固定域名或临时 trycloudflare 地址均可）或 Kaggle 官方 API Token</b>。若两者皆未配置，系统将自动阻止切换并引导您前往设置页填入配置。</p>
+                <ul style="margin:6px 0 0 18px; color:var(--muted); line-height:1.7;">
+                  <li><b>全自动混合云模式（推荐·配置 API Token + 固定域名 / 隧道 Token）</b>：支持后台免开网页一键远程冷启动、任务触发自动唤醒、GPU 剩余额度自动同步及 10 分钟闲置看门狗自动关机。</li>
+                  <li><b>临时域名直接运行模式（免 API Token·直接在 Kaggle 网页 Run All）</b>：在 Kaggle 脚本不填任何 Token 直接点击 Run All，复制日志中的临时 trycloudflare 地址填入设置。此模式下云端翻唱、分离与关机均正常可用，仅无法使用远程一键冷启动功能。</li>
+                </ul>
+              </div>
+              <p>Kaggle 每周免费提供 <b>30 小时双卡 Tesla T4 GPU 算力</b>。我们研发了<b>「零手动常开」</b>远程管理体系：</p>
+              <div style="margin:8px 0 12px; padding:12px 14px; background:var(--bg,#f8fafc); border-radius:8px; border-left:3px solid var(--accent,#8b5cf6);">
+                <strong style="color:var(--text); font-size:13px;">如何配置 Kaggle API Token 实现免开网页一键开机：</strong>
+                <ol style="margin:6px 0 0 18px; color:var(--muted); line-height:1.8;">
+                  <li>登录 <a href="https://www.kaggle.com/" target="_blank" style="color:var(--accent,#8b5cf6);">Kaggle 官网</a>，点击右上角<b>个人头像 → Settings</b>。</li>
+                  <li>向下滑动到 <b>API</b> 区域，点击 <b>Generate New Token</b>（推荐）或 <b>Create Legacy API Key</b>。</li>
+                  <li>复制生成的 Token 字符串（或下载的 kaggle.json 中的文本内容）。</li>
+                  <li>打开本控制台的 <b>设置 →「Kaggle 云端设置」</b>，粘贴到 <b>Kaggle API 访问令牌 (kaggle_api_token)</b> 输入框，点击保存。</li>
+                  <li><b>大功告成</b>：之后无论是在 WebUI 点击【一键唤醒云端】，还是在群里发 <code>#唤醒云端</code>，系统直接调用 Kaggle API 替你开机，再也不用手动开网页！</li>
+                </ol>
+              </div>
+              <p>• <b>看门狗 10 分钟自动关机</b>：云端服务内置 Watchdog 线程，所有排队任务完成后，连续 600 秒（10 分钟）无新任务即自动执行 <code>os._exit(0)</code> 彻底关机，100% 防扣费并节省宝贵的 GPU 额度！<br>
+              • <b>断网无缝平滑兜底</b>：当 Kaggle 处于关机或网络波动时，群友发起的翻唱将自动、无缝由本地网关兜底完成，绝不报错。</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h3>云端专属：强制固定搭载 BS-Roformer 1297 旗舰分离模型</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <p>为了保障云端翻唱任务的人声与伴奏剥离拥有业内天花板级别的听感，<b>Kaggle 云端环境固定并强制使用业内顶尖的 BS-Roformer 1297 旗舰模型</b>（<code>model_bs_roformer_ep_317_sdr_12.9755.ckpt</code>）：</p>
+              <div style="margin:8px 0 12px; padding:12px 14px; background:var(--bg,#f8fafc); border-radius:8px; border-left:3px solid var(--accent,#8b5cf6);">
+                <ul style="margin:0; padding-left:18px; color:var(--muted); line-height:1.8;">
+                  <li><b>顶级 SDR 12.9755 指标</b>：在国际音频盲听与各项 SDR 评测中位列最高阶梯，对微弱和声、电音修音剥离以及复杂伴奏具有极高还原度。</li>
+                  <li><b>全自动调用免配置</b>：无论本地控制台设置了哪种分离模型，只要翻唱任务由 Kaggle 云端 GPU 调度，云端系统将自动、强制使用 BS-Roformer 1297 模型，无需您在本地下载庞大模型权重（数 GB），也无需占用本地显存。</li>
+                  <li><b>历史详情清晰溯源</b>：在 WebUI「历史任务」详情中，由云端完成的翻唱会明确标注分离模型为 <code>BS-Roformer (ViperX)</code>，方便追踪每一首歌曲的音质指标。</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h3>Cloudflare Tunnel 永久固定公网域名配置指南</h3></div>
+            <div style="font-size:13px; line-height:1.7; color:var(--text); margin-top:8px;">
+              <p>为了让处于美区机房的 Kaggle 与你的本地宿主机建立毫秒级安全的双向互通，推荐使用 Cloudflare Tunnel 进行公网穿透：</p>
+              
+              <h4 style="margin:14px 0 6px; font-size:13.5px; color:var(--accent,#8b5cf6);">方案 A：Cloudflare + 国内其他域名商 (如阿里云 / 腾讯云 / 华为云 / 西部数码) ★最常用推荐</h4>
+              <p style="color:var(--muted); margin:0 0 8px;">如果你的域名是在阿里云、腾讯云等国内平台购买的，可以通过将 DNS 权威服务器托管到 Cloudflare，享受永久免费的泛域名 Wildcard SSL 与全球边缘加速：</p>
+              <ol style="margin:0 0 12px 18px; color:var(--muted); line-height:1.8;">
+                <li><b>将域名添加至 Cloudflare</b>：登录 <a href="https://dash.cloudflare.com/" target="_blank" style="color:var(--accent,#8b5cf6);">Cloudflare 控制台</a>，点击 <b>Add a Site</b>，输入你的主域名（例如 <code>yourdomain.com</code>），计划选择 <b>Free (免费版)</b>。</li>
+                <li><b>修改域名 DNS 服务器 (Nameservers)</b>：Cloudflare 会给出两个专属 NS 地址（如 <code>carlos.ns.cloudflare.com</code> 和 <code>paloma.ns.cloudflare.com</code>）。前往阿里云/腾讯云的<b>域名管理控制台</b>，找到「DNS 修改 / 自定义 DNS」，把原有的默认 DNS 服务器改为 Cloudflare 给出的这两个地址。保存后等待 5~15 分钟生效。</li>
+                <li><b>创建 Cloudflare Tunnel</b>：在 Cloudflare 左侧导航栏进入 <b>Zero Trust → Networks → Tunnels</b>，点击 <b>Create a Tunnel</b>，类型选择 <b>Cloudflared</b>，命名为 <code>kaggle-rvc</code>，复制页面上显示的 <code>TUNNEL_TOKEN</code> 密钥。</li>
+                <li><b>添加 Public Hostname (公共主机名)</b>：在创建好的隧道配置中，切换到 <b>Public Hostname</b> 标签页，点击 <b>Add a public hostname</b>：
+                  <br>• <b>Subdomain (子域名)</b>：填 <code>rvc</code>（即生成 <code>rvc.yourdomain.com</code>）
+                  <br>• <b>Domain (主域名)</b>：选择你刚绑定的主域名
+                  <br>• <b>Type</b>：选 <code>HTTP</code>
+                  <br>• <b>URL</b>：填 <code>localhost:7865</code>
+                  <br>点击 Save hostname 保存。Cloudflare Edge 会自动秒级为你签发全球受信任的 Let's Encrypt SSL 安全证书！
+                </li>
+                <li><b>填入 Notebook 与插件</b>：
+                  <br>• 在 Kaggle 笔记本 <code>kaggle_applio_runner.ipynb</code> 的第一格中填入你的 <code>TUNNEL_TOKEN</code>；
+                  <br>• 在本插件的「设置 → Kaggle 云端设置」中将端点填为 <code>https://rvc.yourdomain.com</code>。以后每次启动隧道永久固定，终身无需再改地址！
+                </li>
+              </ol>
+
+              <h4 style="margin:14px 0 6px; font-size:13.5px; color:var(--accent,#8b5cf6);">方案 B：纯 Cloudflare 域名 (全托管)</h4>
+              <p style="color:var(--muted); margin:0 0 8px;">若你的域名直接在 Cloudflare Registrar 注册或已全权托管在 Cloudflare，无需进行步骤 2 的 NS 修改，直接从步骤 3 开始创建 Tunnel 并绑定 Public Hostname 即可，一分钟内配通！</p>
+
+              <h4 style="margin:14px 0 6px; font-size:13.5px; color:var(--accent,#8b5cf6);">方案 C：零域名快速临时体验 (TryCloudflare)</h4>
+              <p style="color:var(--muted); margin:0 0 8px;">如果你暂时没有个人独立域名，也可以在 Kaggle 笔记本中直接运行。Cloudflare 会分配一个临时的 <code>https://xxxx.trycloudflare.com</code> 免费域名。将该地址复制到插件设置中同样可以使用（缺点是每次完全关机后重新开机，临时域名会变化）。</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <details class="accordion-anim">
+              <summary>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="tag sm cloud">可选指南</span>
+                  <strong style="font-size:14px; color:var(--text);">云端音色模型挂载指南（放与不放的区别及操作步骤）</strong>
+                </div>
+                <span class="acc-arrow">▾</span>
+              </summary>
+              <div class="acc-body" style="font-size:13px; line-height:1.7; color:var(--text); border-top:1px dashed var(--line); padding-top:12px;">
+                <h4 style="margin:0 0 8px; font-size:13.5px; color:var(--accent,#8b5cf6);">1. 在云端放与不放模型的区别</h4>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-bottom:14px;">
+                  <div style="background:var(--bg,#f8fafc); padding:10px 14px; border-radius:8px; border:1px solid var(--line);">
+                    <strong style="color:var(--ok,#10b981);">放置模型 (Kaggle Dataset 挂载·强烈推荐)</strong>
+                    <ul style="margin:4px 0 0; padding-left:16px; font-size:12px; color:var(--muted); line-height:1.6;">
+                      <li><b>极速出歌，零网络开销</b>：模型权重与特征索引永久固化在云端存储，开机即秒级加载，无需每次翻唱跨公网从本地上传。</li>
+                      <li><b>节省家庭上传带宽</b>：避免每次冷启动都往美区机房上传数十兆的大文件，特别适合主力声线。</li>
+                      <li><b>实例重启不丢失</b>：即便实例每天关机休眠，下次开机模型依旧挂载在云端。</li>
+                    </ul>
+                  </div>
+                  <div style="background:var(--bg,#f8fafc); padding:10px 14px; border-radius:8px; border:1px solid var(--line);">
+                    <strong style="color:var(--warn,#f59e0b);">不放置模型 (按需本地上传 / 缺省拦截)</strong>
+                    <ul style="margin:4px 0 0; padding-left:16px; font-size:12px; color:var(--muted); line-height:1.6;">
+                      <li><b>关闭上传时</b>：若云端未放置且关闭了本地上传开关，系统将自动拦截未就绪的声模并友好报错，避免盲目消耗 GPU 额度。</li>
+                      <li><b>开启上传时</b>：每次开机首唱需要从本地设备上传 50~100MB 权重文件至云端，出歌需多等待 10~30 秒。</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h4 style="margin:12px 0 8px; font-size:13.5px; color:var(--accent,#8b5cf6);">2. 怎么把模型放到云端（Kaggle 私有数据集挂载步骤）</h4>
+                <ol style="margin:0 0 10px 18px; color:var(--muted); line-height:1.8; font-size:12.5px;">
+                  <li><b>在 Kaggle 创建私有数据集</b>：登录 Kaggle 官网，点击左侧菜单 <b>Datasets → + New Dataset</b>。为数据集命名（如 <code>my-rvc-models</code>，注意保持默认的 <b>Private</b> 私有状态以保护资产安全）。</li>
+                  <li><b>上传本地音色资产</b>：将本地目标音色的 <code>.pth</code> 权重文件及配套的 <code>.index</code> 特征文件（支持多个音色一次性拖入），拖入上传区域，点击右下角 <b>Create</b> 完成创建。</li>
+                  <li><b>在 Notebook 关联挂载数据集</b>：打开用于运行 Applio 的 Kaggle 笔记本（编辑状态），在右侧面板的 <b>Input</b> 区域点击 <b>+ Add Input</b>；在弹出窗口切换至 <b>Your Datasets</b> 标签页，找到刚才创建的数据集，点击右侧加号完成关联。</li>
+                  <li><b>全自动发现免配置</b>：挂载后，数据集将出现在 <code>/kaggle/input/数据集名称</code> 目录下。启动实例时，服务会自动扫描所有子目录并就绪音色，无需您在终端执行任何复杂拷贝命令！</li>
+                </ol>
+              </div>
+            </details>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 诊断 -->
+    <section class="panel" id="tab-diagnostics">
+      <div class="toolbar">
+        <button class="btn" id="btnDiag" type="button">运行诊断</button>
+        <span class="hint" id="diagHint"></span>
+      </div>
+      <div class="panel-body">
+        <div class="grid-2">
+          <article class="card"><div class="card-head"><h3>检查项</h3></div><ul class="checks" id="diagChecks"></ul></article>
+          <article class="card"><div class="card-head"><h3>环境</h3></div><dl class="meta" id="diagPaths"></dl></article>
+        </div>
+        <article class="card">
+          <div class="card-head"><h3>最近错误（AstrBot 日志，最多 40 条）</h3></div>
+          <ul class="logs" id="diagErrors"></ul>
+        </article>
+      </div>
+    </section>
+   </div>
+   </div>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-body">
+    <header class="card-head"><h3 id="modalTitle">详情</h3>
+      <button class="btn ghost sm" id="modalClose" type="button">关闭</button></header>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="/api/plugin/page/bridge-sdk.js"></script>
+<script src="assets/app.js?v=1.0.0-applio-r1"></script>
+</body>
+</html>
