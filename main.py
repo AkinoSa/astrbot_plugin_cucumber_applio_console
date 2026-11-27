@@ -157,6 +157,7 @@ CONFIG_PATHS = {
     "chorus_seconds": ("basic", "chorus_seconds"),
     "chorus_buffer_seconds": ("basic", "chorus_buffer_seconds"),
     "render_mode": ("basic", "render_mode"),
+    "default_track_type": ("basic", "default_track_type"),
     "inference_timeout": ("basic", "inference_timeout"),
     "default_key_shift": ("basic", "default_key_shift"),
     "llm_provider_id": ("basic", "llm_provider_id"),
@@ -758,6 +759,12 @@ class MusicPlugin(Star):
             logger.warning(f"render_mode={raw_render_mode} 不认识，按 chorus（副歌片段）处理")
             raw_render_mode = "chorus"
         self.render_mode = raw_render_mode
+        # 默认音轨也走适配层取，避免 schema 分组后读顶层读空
+        _tt_default = str(config.get("default_track_type", "vocals") or "vocals").strip().lower()
+        self.default_track_type = "vocals" if _tt_default in ("vocals", "vocal") else "cover"
+        logger.info(
+            f"[RVC 控制台] 翻唱默认：mode={self.render_mode} | track={self.default_track_type}"
+        )
         try:
             seconds = int(round(float(config.get("chorus_seconds", 45))))
         except (TypeError, ValueError):
