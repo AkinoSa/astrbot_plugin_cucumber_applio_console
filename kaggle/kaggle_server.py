@@ -58,16 +58,23 @@ for applio_root in [WORKING_DIR / "applio", Path("/app")]:
                 os.symlink(str(applio_root / "rvc"), str(WORKING_DIR / "rvc"))
             except Exception:
                 pass
-        rmvpe_src = ASSETS_DIR / "rmvpe" / "rmvpe.pt"
-        if rmvpe_src.is_file():
+        predictor_sources = {
+            "rmvpe.pt": [ASSETS_DIR / "rmvpe" / "rmvpe.pt", ASSETS_DIR / "predictors" / "rmvpe.pt"],
+            "fcpe.pt": [ASSETS_DIR / "predictors" / "fcpe.pt"],
+        }
+        for pred_name, pred_cands in predictor_sources.items():
+            pred_src = next((p for p in pred_cands if p.is_file()), None)
+            if pred_src is None:
+                logger.warning(f"[predictors] 缺失 {pred_name}，对应 f0_method 将不可用")
+                continue
             for target in [
-                applio_root / "rvc" / "models" / "predictors" / "rmvpe.pt",
-                WORKING_DIR / "rvc" / "models" / "predictors" / "rmvpe.pt",
+                applio_root / "rvc" / "models" / "predictors" / pred_name,
+                WORKING_DIR / "rvc" / "models" / "predictors" / pred_name,
             ]:
                 try:
                     target.parent.mkdir(parents=True, exist_ok=True)
                     if not target.exists():
-                        shutil.copy2(rmvpe_src, target)
+                        shutil.copy2(pred_src, target)
                 except Exception:
                     pass
 
