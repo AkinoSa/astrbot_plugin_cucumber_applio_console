@@ -2363,7 +2363,7 @@ class MusicPlugin(Star):
             _rm = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
             render_mode = _rm if _rm in ('chorus', 'full', 'custom') else 'full'
         if not track_type:
-            _tt = str(self.config.get('default_track_type', 'cover') or 'cover').strip().lower()
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
             track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
         umo = getattr(event, "unified_msg_origin", "") or ""
         label = os.path.basename(str(song_name_src)) or "音频"
@@ -5189,7 +5189,7 @@ class MusicPlugin(Star):
                 "🎵 RVC 翻唱指令说明",
                 "用法：/rvc <歌名> [升降调] [全首/副歌] [伴奏]\n\n"
                 "【默认规则】\n"
-                "• 默认：整首 + 人声伴奏结合（跟随插件配置 basic.render_mode / default_track_type）\n\n"
+                "• 默认：跟随插件配置（basic.render_mode 翻唱模式 / basic.default_track_type 音轨模式）\n\n"
                 "【模式修饰词】\n"
                 "• 加伴奏：输入「伴奏 / 带伴奏」输出【人声 + 伴奏结合版】\n"
                 "• 唱全首：输入「全首 / 整首 / 完整版」输出【全曲完整版】\n"
@@ -5208,7 +5208,7 @@ class MusicPlugin(Star):
         render_mode = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
         if render_mode not in ('chorus', 'full', 'custom'):
             render_mode = 'full'
-        track_type = str(self.config.get('default_track_type', 'cover') or 'cover').strip().lower()
+        track_type = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
         track_type = 'vocals' if track_type in ('vocals', 'vocal') else 'cover'
         key_shift = self.default_key_shift
         cleaned_args = []
@@ -5738,7 +5738,7 @@ class MusicPlugin(Star):
         render_mode = _rm
         _tt = str(track_type or '').strip().lower()
         if _tt not in ('vocals', 'vocal', 'cover'):
-            _tt = str(self.config.get('default_track_type', 'cover') or 'cover').strip().lower()
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
         if _tt not in ('vocals', 'vocal', 'cover'):
             _tt = 'cover'
         track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
@@ -5799,7 +5799,7 @@ class MusicPlugin(Star):
         if render_mode not in ('chorus', 'full', 'custom'):
             render_mode = 'full'
         if str(track_type or '').strip().lower() not in ('vocals', 'vocal', 'cover'):
-            _tt = str(self.config.get('default_track_type', 'cover') or 'cover').strip().lower()
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
             track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
         else:
             track_type = 'vocals' if str(track_type).strip().lower() in ('vocals', 'vocal') else 'cover'
@@ -6148,7 +6148,7 @@ class MusicPlugin(Star):
         render_mode = _rm
         _tt = str(track_type or '').strip().lower()
         if _tt not in ('vocals', 'vocal', 'cover'):
-            _tt = str(self.config.get('default_track_type', 'cover') or 'cover').strip().lower()
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
         if _tt not in ('vocals', 'vocal', 'cover'):
             _tt = 'cover'
         track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
@@ -6267,7 +6267,7 @@ class MusicPlugin(Star):
         if render_mode not in ('chorus', 'full', 'custom'):
             render_mode = 'full'
         if str(track_type or '').strip().lower() not in ('vocals', 'vocal', 'cover'):
-            _tt = str(self.config.get('default_track_type', 'cover') or 'cover').strip().lower()
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
             track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
         else:
             track_type = 'vocals' if str(track_type).strip().lower() in ('vocals', 'vocal') else 'cover'
