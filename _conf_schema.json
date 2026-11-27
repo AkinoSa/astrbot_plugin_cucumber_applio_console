@@ -42,6 +42,20 @@
         ],
         "default": "chorus"
       },
+      "default_track_type": {
+        "description": "默认音轨模式",
+        "type": "string",
+        "hint": "纯人声清唱=只输出变声后的人声；人声+伴奏结合=把角色歌声与原曲伴奏混音。用户明确说「清唱/不要伴奏」或「加伴奏/带伴奏」时以用户说法为准，此处只决定用户没提时的默认行为。",
+        "options": [
+          "vocals",
+          "cover"
+        ],
+        "labels": [
+          "纯人声清唱（默认，与旧版行为一致）",
+          "人声 + 伴奏结合"
+        ],
+        "default": "vocals"
+      },
       "inference_timeout": {
         "description": "推理超时（秒）",
         "type": "int",

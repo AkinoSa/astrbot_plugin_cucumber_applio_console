@@ -157,6 +157,7 @@ CONFIG_PATHS = {
     "chorus_seconds": ("basic", "chorus_seconds"),
     "chorus_buffer_seconds": ("basic", "chorus_buffer_seconds"),
     "render_mode": ("basic", "render_mode"),
+    "default_track_type": ("basic", "default_track_type"),
     "inference_timeout": ("basic", "inference_timeout"),
     "default_key_shift": ("basic", "default_key_shift"),
     "llm_provider_id": ("basic", "llm_provider_id"),
@@ -758,6 +759,12 @@ class MusicPlugin(Star):
             logger.warning(f"render_mode={raw_render_mode} 不认识，按 chorus（副歌片段）处理")
             raw_render_mode = "chorus"
         self.render_mode = raw_render_mode
+        # 默认音轨也走适配层取，避免 schema 分组后读顶层读空
+        _tt_default = str(config.get("default_track_type", "vocals") or "vocals").strip().lower()
+        self.default_track_type = "vocals" if _tt_default in ("vocals", "vocal") else "cover"
+        logger.info(
+            f"[RVC 控制台] 翻唱默认：mode={self.render_mode} | track={self.default_track_type}"
+        )
         try:
             seconds = int(round(float(config.get("chorus_seconds", 45))))
         except (TypeError, ValueError):
@@ -2358,6 +2365,13 @@ class MusicPlugin(Star):
         start_time: Optional[str] = None,
     ) -> tuple[Any, bool]:
         """排队后提交给 RVC 中间层（同一时间只跑一个，其余排队）。"""
+        # [defmode-patch-2]
+        if not render_mode:
+            _rm = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
+            render_mode = _rm if _rm in ('chorus', 'full', 'custom') else 'full'
+        if not track_type:
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
+            track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
         umo = getattr(event, "unified_msg_origin", "") or ""
         label = os.path.basename(str(song_name_src)) or "音频"
         meta = dict(self._pending_cover_meta.pop(umo, None) or {})
@@ -3167,6 +3181,12 @@ class MusicPlugin(Star):
                     **reverb_kwargs,
                     **applio_kwargs,
                 }
+                # [defmode-patch-3] 本地网关同样显式提交 track_type
+                _pnames = self._client_api_parameter_names(client, '/convert')
+                if _pnames and 'track_type' in _pnames:
+                    legacy_kwargs['track_type'] = str(track_type or 'cover').strip().lower()
+                if _pnames:
+                    legacy_kwargs = {k: v for k, v in legacy_kwargs.items() if k in _pnames}
                 result, cache_hit = await self._async_predict(
                     client,
                     **legacy_kwargs,
@@ -5176,7 +5196,7 @@ class MusicPlugin(Star):
                 "🎵 RVC 翻唱指令说明",
                 "用法：/rvc <歌名> [升降调] [全首/副歌] [伴奏]\n\n"
                 "【默认规则】\n"
-                "• 默认：副歌 + 纯人声清唱（音频时长约 25 秒，极速出歌，人声最清晰）\n\n"
+                "• 默认：跟随插件配置（basic.render_mode 翻唱模式 / basic.default_track_type 音轨模式）\n\n"
                 "【模式修饰词】\n"
                 "• 加伴奏：输入「伴奏 / 带伴奏」输出【人声 + 伴奏结合版】\n"
                 "• 唱全首：输入「全首 / 整首 / 完整版」输出【全曲完整版】\n"
@@ -5191,8 +5211,12 @@ class MusicPlugin(Star):
             )
             return
 
-        render_mode = "chorus"
-        track_type = "vocals"  # 默认副歌 + 纯人声
+        # [defmode-patch]
+        render_mode = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
+        if render_mode not in ('chorus', 'full', 'custom'):
+            render_mode = 'full'
+        track_type = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
+        track_type = 'vocals' if track_type in ('vocals', 'vocal') else 'cover'
         key_shift = self.default_key_shift
         cleaned_args = []
 
@@ -5679,8 +5703,8 @@ class MusicPlugin(Star):
         model_index: int = 1,
         model_name: Optional[str] = None,
         key_shift: int = 0,
-        render_mode: Optional[str] = "chorus",
-        track_type: Optional[str] = "vocals",
+        render_mode: Optional[str] = None,
+        track_type: Optional[str] = None,
     ) -> str:
         '''使用 RVC 音色模型翻唱歌曲。
 
@@ -5699,12 +5723,12 @@ class MusicPlugin(Star):
             model_name(string, optional): 模型名称或别名（支持模糊匹配）。优先级高于model_index
                 例如：'塔菲'会自动匹配到tafeim.pth
             key_shift(number): 音调调整，范围为-12到12，默认为0
-            render_mode(string, optional): 翻唱长度模式。可选值：
-                - 'chorus'（默认）：副歌片段（以系统配置的翻唱时长为准，精选高潮段落约25秒）。用户未明确要求整首，或提到'副歌/高潮/片段/唱一段'时，务必使用此模式！
-                - 'full'：整首歌曲（完整全曲）。仅在用户明确说出'全首/整首/全曲/完整版/唱完整首'等口语化描述时使用。
-            track_type(string, optional): 音轨模式。可选值：
-                - 'vocals'（默认）：纯人声清唱（仅有角色歌声，不混伴奏）。用户常规点歌翻唱、未特别说明要伴奏、或说'清唱/纯人声'时，务必默认使用此项！
-                - 'cover'：人声+伴奏结合（角色歌声与原曲伴奏混音）。仅在用户明确说出'加伴奏/带伴奏/伴奏/混音版/有配乐'等口语化描述时使用。
+            render_mode(string, optional): 翻唱长度模式。**用户没明确提及时一律不填**，由系统默认配置决定（当前默认为整首）。
+                - 'full'：整首歌曲（完整全曲）。
+                - 'chorus'：副歌片段。仅在用户明确说'副歌/高潮/片段/唱一段/短一点'时才填。
+            track_type(string, optional): 音轨模式。**用户没明确提及时一律不填**，由系统默认配置决定（当前默认为带伴奏）。
+                - 'cover'：人声+伴奏结合。
+                - 'vocals'：纯人声清唱。仅在用户明确说'清唱/纯人声/不要伴奏'时才填。
 
         Returns:
             翻唱结果的描述信息（异步模式会立即返回"正在处理"）
@@ -5712,6 +5736,19 @@ class MusicPlugin(Star):
         注意：
             RVC 功能可能已在配置中禁用，此时会返回错误提示。
         '''
+        # [defmode-patch]
+        _rm = str(render_mode or '').strip().lower()
+        if _rm not in ('chorus', 'full', 'custom'):
+            _rm = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
+        if _rm not in ('chorus', 'full', 'custom'):
+            _rm = 'full'
+        render_mode = _rm
+        _tt = str(track_type or '').strip().lower()
+        if _tt not in ('vocals', 'vocal', 'cover'):
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
+        if _tt not in ('vocals', 'vocal', 'cover'):
+            _tt = 'cover'
+        track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
         rejected = self._reject_music_request(event, "rvc_cover")
         if rejected:
             return rejected
@@ -5755,14 +5792,24 @@ class MusicPlugin(Star):
         model_index: int,
         key_shift: Optional[int],
         artist_name: str = "",
-        render_mode: Optional[str] = "chorus",
-        track_type: Optional[str] = "vocals",
+        render_mode: Optional[str] = None,
+        track_type: Optional[str] = None,
     ) -> str:
         """统一的翻唱执行逻辑（只用 RVC）。
 
         ``song_name`` 原样整串交给搜歌入口；``artist_name`` 非空才当过滤条件，
         由 :func:`source_router.pick_best_song` 统一处理（不再拼搜索串）。
         """
+        # [smartcover-defmode-patch-async]
+        if render_mode not in ('chorus', 'full', 'custom'):
+            render_mode = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
+        if render_mode not in ('chorus', 'full', 'custom'):
+            render_mode = 'full'
+        if str(track_type or '').strip().lower() not in ('vocals', 'vocal', 'cover'):
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
+            track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
+        else:
+            track_type = 'vocals' if str(track_type).strip().lower() in ('vocals', 'vocal') else 'cover'
         flow_id = uuid.uuid4().hex[:8]
         result_path = None
         temp_audio_file = None
@@ -6056,8 +6103,8 @@ class MusicPlugin(Star):
                          model_index: Optional[int] = None,
                          model_name: Optional[str] = None,
                          key_shift: Optional[int] = None,
-                         render_mode: Optional[str] = "chorus",
-                         track_type: Optional[str] = "vocals") -> str:
+                         render_mode: Optional[str] = None,
+                         track_type: Optional[str] = None) -> str:
         '''智能一键 RVC 翻唱工具 - 自动完成搜索+选择+翻唱全流程！
 
         这是最高效的翻唱方式，只需提供歌曲名即可自动完成所有步骤。
@@ -6082,12 +6129,12 @@ class MusicPlugin(Star):
                 例如：'塔菲'会自动匹配到tafeim.pth，'maxmaxpoi'也能匹配
             key_shift(number, optional): 音调调整，范围 -12 到 12；不指定则使用默认值或用户偏好。
                 调用此工具前，你应该分析原曲演唱者性别与目标模型音域的匹配关系（如周杰伦男声→塔菲喵女声）。但分析完成后请不要传入 key_shift，插件会根据分析结果自动应用配置中的升降调值（男→女用 male_to_female_shift，女→男用 female_to_male_shift）。只有当用户明确要求特定数值（如"升3调"）时才传入 key_shift。
-            render_mode(string, optional): 翻唱长度模式。可选值：
-                - 'chorus'（默认）：副歌片段（以系统配置的翻唱时长为准，精选高潮段落约25秒）。用户未明确要求整首，或提到'副歌/高潮/片段/唱一段'时，务必使用此模式！
-                - 'full'：整首歌曲（完整全曲）。仅在用户明确说出'全首/整首/全曲/完整版/唱完整首'等口语化描述时使用。
-            track_type(string, optional): 音轨模式。可选值：
-                - 'vocals'（默认）：纯人声清唱（仅有角色歌声，不混伴奏）。用户常规点歌翻唱、未特别说明要伴奏、或说'清唱/纯人声'时，务必默认使用此项！
-                - 'cover'：人声+伴奏结合（角色歌声与原曲伴奏混音）。仅在用户明确说出'加伴奏/带伴奏/伴奏/混音版/有配乐'等口语化描述时使用。
+            render_mode(string, optional): 翻唱长度模式。**用户没明确提及时一律不填**，由系统配置决定。
+                - 'full'：整首歌曲（完整全曲）。
+                - 'chorus'：副歌片段。仅在用户明确说'副歌/高潮/片段/唱一段/短一点'时才填。
+            track_type(string, optional): 音轨模式。**用户没明确提及时一律不填**，由系统配置决定。
+                - 'cover'：人声+伴奏结合。
+                - 'vocals'：纯人声清唱。仅在用户明确说'清唱/纯人声/不要伴奏'时才填。
 
         Returns:
             翻唱结果描述（异步模式会立即返回"正在处理"）
@@ -6098,6 +6145,20 @@ class MusicPlugin(Star):
             - 本工具采用异步执行，会立即返回并后台处理，完成后自动发送音频
             - 取歌走插件配置的音源顺序（默认网易云 → 酷狗 → 酷我 → QQ 音乐）
         '''
+        # [smartcover-defmode-patch]
+        # smart_cover 与 rvc_cover 保持一致：未显式传入就跟随插件配置
+        _rm = str(render_mode or '').strip().lower()
+        if _rm not in ('chorus', 'full', 'custom'):
+            _rm = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
+        if _rm not in ('chorus', 'full', 'custom'):
+            _rm = 'full'
+        render_mode = _rm
+        _tt = str(track_type or '').strip().lower()
+        if _tt not in ('vocals', 'vocal', 'cover'):
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
+        if _tt not in ('vocals', 'vocal', 'cover'):
+            _tt = 'cover'
+        track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
         rejected = self._reject_music_request(event, "smart_cover")
         if rejected:
             return rejected
@@ -6199,14 +6260,24 @@ class MusicPlugin(Star):
         key_shift: Optional[int],
         model_display: str,
         artist_name: str = "",
-        render_mode: Optional[str] = "chorus",
-        track_type: Optional[str] = "vocals",
+        render_mode: Optional[str] = None,
+        track_type: Optional[str] = None,
     ):
         """smart_cover 异步执行函数。
 
         ``song_name`` 是用户说的歌名整串（版本名留在里面），``artist_name`` 只在
         用户明确说出歌手时才有值，两者分开传给取歌入口，不再拼成一个搜索串。
         """
+        # [smartcover-defmode-patch-async]
+        if render_mode not in ('chorus', 'full', 'custom'):
+            render_mode = str(getattr(self, 'render_mode', 'full') or 'full').strip().lower()
+        if render_mode not in ('chorus', 'full', 'custom'):
+            render_mode = 'full'
+        if str(track_type or '').strip().lower() not in ('vocals', 'vocal', 'cover'):
+            _tt = str(self.config.get('default_track_type', 'vocals') or 'vocals').strip().lower()
+            track_type = 'vocals' if _tt in ('vocals', 'vocal') else 'cover'
+        else:
+            track_type = 'vocals' if str(track_type).strip().lower() in ('vocals', 'vocal') else 'cover'
         registry_error = ""
         registry_timeout = False
         try:

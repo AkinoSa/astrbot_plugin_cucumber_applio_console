@@ -50,7 +50,7 @@ from astrbot.api import logger
 # 接口常量（与点歌插件保持一致）
 # ---------------------------------------------------------------------------
 #: 搜歌接口：POST，参数 s / limit / type=1 / offset=0，带 appver=2.0.2 这个 cookie
-SEARCH_URL = "http://music.163.com/api/search/get/web"
+SEARCH_URL = "https://music.163.com/api/cloudsearch/pc"
 SEARCH_COOKIES = {"appver": "2.0.2"}
 #: 取直链的主路：点歌插件 netease 平台用的 meting 服务
 DEFAULT_METING_BASE = "https://api.qijieya.cn/meting/"
